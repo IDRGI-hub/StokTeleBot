@@ -1,0 +1,109 @@
+{
+    "машинка от катышек": "Stock info not found",
+    "ми бенд 9": {
+        "total_stock": 331,
+        "warehouses": 1,
+        "details": {
+            "Электросталь": 331
+        }
+    },
+    "ми бенд 7": "Stock info not found",
+    "сушилка": {
+        "total_stock": 132,
+        "warehouses": 1,
+        "details": {
+            "Электросталь": 132
+        }
+    },
+    "гриль": {
+        "total_stock": 485,
+        "warehouses": 1,
+        "details": {
+            "Коледино": 485
+        }
+    },
+    "отпар new": {
+        "total_stock": 427,
+        "warehouses": 2,
+        "details": {
+            "Электросталь": 425,
+            "Коледино": 2
+        }
+    },
+    "отпар old": {
+        "total_stock": 211,
+        "warehouses": 2,
+        "details": {
+            "Электросталь": 210,
+            "Котовск": 1
+        }
+    },
+    "G20 Lite": {
+        "total_stock": 67,
+        "warehouses": 2,
+        "details": {
+            "Тула": 50,
+            "Коледино": 17
+        }
+    },
+    "G24": {
+        "total_stock": 545,
+        "warehouses": 1,
+        "details": {
+            "Электросталь": 545
+        }
+    },
+    "X27G": {
+        "total_stock": 363,
+        "warehouses": 3,
+        "details": {
+            "Электросталь": 343,
+            "Краснодар (Тихорецкая)": 19,
+            "Тула": 1
+        }
+    },
+    "X34": {
+        "total_stock": 91,
+        "warehouses": 2,
+        "details": {
+            "Электросталь": 90,
+            "Котовск": 1
+        }
+    },
+    "вертушка": {
+        "total_stock": 579,
+        "warehouses": 2,
+        "details": {
+            "Коледино": 494,
+            "Краснодар (Тихорецкая)": 85
+        }
+    },
+    "увлж 03": {
+        "total_stock": 20,
+        "warehouses": 1,
+        "details": {
+            "Электросталь": 20
+        }
+    },
+    "увлж 05": {
+        "total_stock": 384,
+        "warehouses": 1,
+        "details": {
+            "Электросталь": 384
+        }
+    },
+    "увлж 06": {
+        "total_stock": 371,
+        "warehouses": 1,
+        "details": {
+            "Электросталь": 371
+        }
+    },
+    "21.45": {
+        "total_stock": 120,
+        "warehouses": 1,
+        "details": {
+            "Электросталь": 120
+        }
+    }
+}
