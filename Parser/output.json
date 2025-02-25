@@ -1,109 +1,121 @@
 {
-    "машинка от катышек": "Stock info not found",
-    "ми бенд 9": {
-        "total_stock": 331,
-        "warehouses": 1,
+    "машинка от катышек": {
+        "total_stock": 3195,
+        "warehouses": 2,
         "details": {
-            "Электросталь": 331
+            "Тула": 2710,
+            "Коледино": 485
+        }
+    },
+    "ми бенд 9": {
+        "total_stock": 298,
+        "warehouses": 3,
+        "details": {
+            "Электросталь": 296,
+            "Тула": 1,
+            "Котовск": 1
         }
     },
     "ми бенд 7": "Stock info not found",
     "сушилка": {
-        "total_stock": 132,
-        "warehouses": 1,
+        "total_stock": 228,
+        "warehouses": 2,
         "details": {
-            "Электросталь": 132
+            "Коледино": 148,
+            "Электросталь": 80
         }
     },
     "гриль": {
-        "total_stock": 485,
-        "warehouses": 1,
+        "total_stock": 350,
+        "warehouses": 2,
         "details": {
-            "Коледино": 485
+            "Коледино": 349,
+            "Алматы Атакент": 1
         }
     },
     "отпар new": {
-        "total_stock": 427,
-        "warehouses": 2,
+        "total_stock": 401,
+        "warehouses": 1,
         "details": {
-            "Электросталь": 425,
-            "Коледино": 2
+            "Электросталь": 401
         }
     },
     "отпар old": {
-        "total_stock": 211,
-        "warehouses": 2,
+        "total_stock": 203,
+        "warehouses": 3,
         "details": {
-            "Электросталь": 210,
+            "Электросталь": 201,
+            "Казань": 1,
             "Котовск": 1
         }
     },
     "G20 Lite": {
-        "total_stock": 67,
+        "total_stock": 51,
         "warehouses": 2,
         "details": {
-            "Тула": 50,
-            "Коледино": 17
+            "Тула": 47,
+            "Коледино": 4
         }
     },
     "G24": {
-        "total_stock": 545,
-        "warehouses": 1,
+        "total_stock": 396,
+        "warehouses": 2,
         "details": {
-            "Электросталь": 545
+            "Электросталь": 395,
+            "Котовск": 1
         }
     },
     "X27G": {
-        "total_stock": 363,
-        "warehouses": 3,
+        "total_stock": 489,
+        "warehouses": 2,
         "details": {
-            "Электросталь": 343,
-            "Краснодар (Тихорецкая)": 19,
+            "Электросталь": 488,
             "Тула": 1
         }
     },
     "X34": {
-        "total_stock": 91,
-        "warehouses": 2,
+        "total_stock": 83,
+        "warehouses": 1,
         "details": {
-            "Электросталь": 90,
-            "Котовск": 1
+            "Электросталь": 83
         }
     },
     "вертушка": {
-        "total_stock": 579,
+        "total_stock": 594,
         "warehouses": 2,
         "details": {
-            "Коледино": 494,
-            "Краснодар (Тихорецкая)": 85
+            "Коледино": 511,
+            "Краснодар (Тихорецкая)": 83
         }
     },
     "увлж 03": {
-        "total_stock": 20,
+        "total_stock": 125,
         "warehouses": 1,
         "details": {
-            "Электросталь": 20
+            "Электросталь": 125
         }
     },
     "увлж 05": {
-        "total_stock": 384,
+        "total_stock": 44,
         "warehouses": 1,
         "details": {
-            "Электросталь": 384
+            "Электросталь": 44
         }
     },
     "увлж 06": {
-        "total_stock": 371,
-        "warehouses": 1,
+        "total_stock": 220,
+        "warehouses": 2,
         "details": {
-            "Электросталь": 371
+            "Электросталь": 219,
+            "Невинномысск": 1
         }
     },
     "21.45": {
-        "total_stock": 120,
-        "warehouses": 1,
+        "total_stock": 47,
+        "warehouses": 2,
         "details": {
-            "Электросталь": 120
+            "Электросталь": 46,
+            "Котовск": 1
         }
     }
 }

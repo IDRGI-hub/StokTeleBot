@@ -5,7 +5,7 @@ import json
 
 from aiogram import Bot, Dispatcher
 
-from config import TOKEN, CHAT_IDS
+from config import TOKEN, CHAT_IDS, OUTPUT_FILE
 from app.hendlers import router
 from Parser.Parser import scrape_data
 
@@ -17,7 +17,7 @@ async def send_daily_stock():
 
     results = await scrape_data()
 
-    with open("output.json", "r", encoding="utf-8") as f:
+    with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
 
     response = "📊 **Остатки товаров за сегодня:**\n\n"
@@ -42,7 +42,7 @@ async def main():
     logging.info("🤖 Бот запущен!")
     
     # Запуск планировщика задачи в фоне
-    aiocron.crontab("54 19 * * *", func=send_daily_stock)
+    aiocron.crontab("34 15 * * *", func=send_daily_stock)
     
     dp.include_router(router)
     

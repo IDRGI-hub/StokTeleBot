@@ -1,5 +1,5 @@
 TOKEN = "7432975813:AAENk2vwoT0CtAHv8Lj92Ow4qP9ilt1zRcA"	# bot token
-CHAT_IDS = ["439716080", "857251907"] # id чатов
+CHAT_IDS = ["439716080", "857251907", "889953315"] # id чатов
 
 # URL-адреса
 MAYAK_URL = "https://app.mayak.bz/users/sign_in"
