@@ -2,16 +2,12 @@ import asyncio
 import json
 import logging
 import os
-import re
 from bs4 import BeautifulSoup
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from config import MAYAK_URL, WILDBERRIES_URL_TEMPLATE, USERNAME, PASSWORD, ARTICLES, COOKIE_FILE, EXTENSION_PATH, OUTPUT_FILE
 
@@ -138,10 +134,12 @@ def extract_stock_info(html):
         "details": warehouse_details
     }
 
-
-
 async def scrape_wildberries(driver):
     results = {}
+    
+    # Создаем папку для HTML-файлов, если её нет
+    if not os.path.exists("html_files"):
+        os.makedirs("html_files")
     
     for article_id, product_name in ARTICLES.items():
         url = WILDBERRIES_URL_TEMPLATE.format(article_id)
@@ -165,7 +163,8 @@ async def scrape_wildberries(driver):
                 results[product_name] = "Stock info not found"
                 logging.warning(f"Stock info not found for {product_name}")
             
-            html_file = f"wildberries_page_{article_id}.html"
+            # Сохраняем HTML-файл в папку html_files
+            html_file = os.path.join("html_files", f"wildberries_page_{article_id}.html")
             with open(html_file, "w", encoding="utf-8") as f:
                 f.write(html_content)
             logging.info(f"Saved page HTML to {html_file}")

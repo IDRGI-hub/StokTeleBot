@@ -42,12 +42,11 @@ async def main():
     logging.info("🤖 Бот запущен!")
     
     # Запуск планировщика задачи в фоне
-    aiocron.crontab("34 15 * * *", func=send_daily_stock)
-    
+    aiocron.crontab("50 23 * * *", func=send_daily_stock),
     dp.include_router(router)
     
     # Запускаем бота
-    await dp.start_polling(bot)
+    await dp.start_polling(bot, polling_timeout = 5)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

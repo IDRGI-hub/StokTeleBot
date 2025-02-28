@@ -9,6 +9,6 @@ help = InlineKeyboardMarkup(
     inline_keyboard=[
         [InlineKeyboardButton(text='Получить актуальные данные ✅', callback_data='/get_data')],
         [InlineKeyboardButton(text='Получить данные из таблицы 🔴', callback_data='/get_table')],
-        [InlineKeyboardButton(text='Подписаться на рассылку📩', callback_data='/get_massages')],
+        [InlineKeyboardButton(text='Подписаться на рассылку📩', callback_data='/get_messages')],
     ]
 )    

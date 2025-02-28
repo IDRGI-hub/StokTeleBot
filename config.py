@@ -30,9 +30,9 @@ ARTICLES = {
 }
 
 # Пути к файлам
-COOKIE_FILE = "C:\StokTelebot\Parser\web_driver\cookies.json"
-EXTENSION_PATH = "C:\StokTelebot\Parser\extension\extension.xpi"  # Укажи правильный путь к расширению
-OUTPUT_FILE = "C:\StokTelebot\Parser\output.json"
+COOKIE_FILE = "Parser\web_driver\cookies.json"
+EXTENSION_PATH = "Parser\extension\extension.xpi"  # Укажи правильный путь к расширению
+OUTPUT_FILE = "Parser\output.json"
 
 # Логирование
 LOGGING_LEVEL = "INFO"
