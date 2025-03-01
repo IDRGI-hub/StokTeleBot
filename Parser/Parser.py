@@ -14,6 +14,8 @@ from config import MAYAK_URL, WILDBERRIES_URL_TEMPLATE, USERNAME, PASSWORD, ARTI
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+firefox_binary_path = "/usr/bin/firefox" 
+
 def save_cookies(driver, filename):
     cookies = driver.get_cookies()
     with open(filename, "w") as f:
@@ -35,7 +37,8 @@ def setup_driver():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.set_preference("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36")
-    
+    options.binary_location = firefox_binary_path
+
     service = FirefoxService()
     driver = webdriver.Firefox(service=service, options=options)
     logging.info("Driver set up with custom headers.")
