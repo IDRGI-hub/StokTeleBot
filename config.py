@@ -1,4 +1,4 @@
-TOKEN = "7432975813:AAENk2vwoT0CtAHv8Lj92Ow4qP9ilt1zRcA"	# bot token
+TOKEN = ""	# bot token
 CHAT_IDS = ["439716080", "857251907", "889953315"] # id чатов
 
 # URL-адреса
@@ -6,8 +6,8 @@ MAYAK_URL = "https://app.mayak.bz/users/sign_in"
 WILDBERRIES_URL_TEMPLATE = "https://www.wildberries.ru/catalog/{}/detail.aspx"
 
 # Данные для входа
-USERNAME = "89152251909"
-PASSWORD = "D17102002o"
+USERNAME = ""
+PASSWORD = ""
 
 # Список товаров для парсинга
 ARTICLES = {
