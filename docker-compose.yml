@@ -2,8 +2,19 @@ version: '3.8'
 
 services:
   bot:
-    build: .  # Собираем контейнер из Dockerfile в текущей директории
-    container_name: selenium-bot  # Имя контейнера
-    restart: unless-stopped  # Автоматический перезапуск контейнера, если он остановится
+    build: .
+    container_name: selenium-bot
+    restart: unless-stopped
     volumes:
-      - .:/app  # Монтирование текущей директории в контейнер (чтобы изменения в коде сразу применялись)
+      - .:/appdir
+    depends_on:
+      - selenium
+
+  selenium:
+    image: selenium/standalone-firefox:latest
+    container_name: selenium-server
+    ports:
+      - "4444:4444"
+    shm_size: "2g"
+    volumes:
+      - ./Parser/extension:/extension  # Монтируем папку с расширением

@@ -4,17 +4,15 @@ import logging
 import os
 from bs4 import BeautifulSoup
 
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium import webdriver
+from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 from config import MAYAK_URL, WILDBERRIES_URL_TEMPLATE, USERNAME, PASSWORD, ARTICLES, COOKIE_FILE, EXTENSION_PATH, OUTPUT_FILE
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-
-firefox_binary_path = "/usr/bin/firefox" 
 
 def save_cookies(driver, filename):
     cookies = driver.get_cookies()
@@ -37,16 +35,21 @@ def setup_driver():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.set_preference("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36")
-    options.binary_location = firefox_binary_path
 
-    service = FirefoxService()
-    driver = webdriver.Firefox(service=service, options=options)
-    logging.info("Driver set up with custom headers.")
-    
+     # Подключение к удалённому Selenium Server
+    driver = RemoteWebDriver(
+        command_executor="http://selenium:4444/wd/hub",  # URL Selenium Server
+        options=options
+    )
+    logging.info("Driver set up with remote Selenium Server.")
+
     # Установка расширения
-    if EXTENSION_PATH:
-        driver.install_addon(EXTENSION_PATH, temporary=True)
-        logging.info(f"Installed extension: {EXTENSION_PATH}")
+    try:
+        addon_id = webdriver.Firefox.install_addon(driver, EXTENSION_PATH)
+        logging.info(f"Installed extension with ID: {addon_id}")
+    except Exception as e:
+        logging.error(f"Ошибка: {e}")
+
     
     return driver
 
