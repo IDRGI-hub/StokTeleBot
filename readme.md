@@ -28,8 +28,8 @@
 
 1. **Клонируйте репозиторий**:
    ```bash
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo
+   git clone https://github.com/IDRGI-hub/StokTeleBot
+   cd StokTeleBot
    ```
 
 2. **Настройте конфигурацию**:
@@ -85,7 +85,7 @@ project/
 2. Собирать данные об остатках товаров.
 3. Формировать отчет и отправлять его в Telegram.
 
-![Пример сообщения](https://disk.yandex.ru/i/575clpxKDIVsOw)
+![Пример сообщения](https://4.downloader.disk.yandex.ru/preview/18db477a9feb5ecd41767898eb5df2759b32aa437fc39ced3797a8eeddf2211c/inf/ILwrTam0Dr_LQyDtPkPgq_IKbVF03AnTGF8YWKKnTgRcywzB0KwARvzJxuh2b26KRohJ6eq1I3ev2BXPLTjzfg%3D%3D?uid=294545757&filename=%D0%91%D0%B5%D0%B7%20%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=294545757&tknv=v2&size=1912x954)
 
 ## Локализация ошибок
 
@@ -113,4 +113,3 @@ project/
 
 **Автор**: IDRGI-hub  
 **Контакты**: [Telegram](https://t.me/metaagrar)
-```
