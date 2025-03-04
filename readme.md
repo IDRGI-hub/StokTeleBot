@@ -1,4 +1,3 @@
-```markdown
 # Telegram Bot для мониторинга остатков товаров на Wildberries
 
 Этот бот предназначен для автоматического сбора данных об остатках товаров на Wildberries через парсинг с использованием Selenium. Результаты отправляются в Telegram-чат.
@@ -86,7 +85,7 @@ project/
 2. Собирать данные об остатках товаров.
 3. Формировать отчет и отправлять его в Telegram.
 
-![Пример сообщения](https://example.com/screenshot.png)
+![Пример сообщения](https://disk.yandex.ru/i/575clpxKDIVsOw)
 
 ## Локализация ошибок
 
@@ -112,6 +111,6 @@ project/
 
 ---
 
-**Автор**: Ваше имя  
-**Контакты**: [Telegram](https://t.me/your_username) | [Email](mailto:your@email.com)
+**Автор**: IDRGI-hub  
+**Контакты**: [Telegram](https://t.me/metaagrar)
 ```
