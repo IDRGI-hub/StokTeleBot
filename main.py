@@ -8,6 +8,7 @@ from aiogram import Bot, Dispatcher
 from config import TOKEN, CHAT_IDS, OUTPUT_FILE
 from app.hendlers import router
 from Parser.Parser import scrape_data
+from Parser.Save_utils import save_stock_history
 
 bot = Bot(TOKEN)
 dp = Dispatcher()
@@ -58,3 +59,7 @@ if __name__ == '__main__':
         asyncio.run(main())
     except KeyboardInterrupt:
         print("Bye!")
+
+# Сохраняем историю остатков товаров в файл
+results = await scrape_data()
+save_stock_history(results)
