@@ -17,10 +17,13 @@ async def send_daily_stock():
     logging.info("⏳ Запуск автоматического сбора данных...")
 
     for chat_id in CHAT_IDS:
-        await bot.send_message(chat_id=chat_id, text= "⏳ Запуск автоматического сбора данных...", parse_mode="Markdown")
+        await bot.send_message(chat_id=chat_id, text="⏳ Запуск автоматического сбора данных...", parse_mode="Markdown")
         logging.info(f"✅ Данные отправлены в чат {chat_id}")
 
     results = await scrape_data()
+
+    # 💾 Сохраняем результаты в JSON-файл с датой
+    save_stock_history(results)
 
     with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -59,7 +62,3 @@ if __name__ == '__main__':
         asyncio.run(main())
     except KeyboardInterrupt:
         print("Bye!")
-
-# Сохраняем историю остатков товаров в файл
-results = await scrape_data()
-save_stock_history(results)
