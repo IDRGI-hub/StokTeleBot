@@ -8,6 +8,7 @@ import logging
 import app.keyboards as kb
 from Parser.Parser import scrape_data
 from config import OUTPUT_FILE, CHAT_IDS
+from Parser.excel_report import create_excel_report
 
 router = Router()
 
@@ -90,4 +91,13 @@ async def cmd_subscribe(callback: CallbackQuery):
     # Подтверждаем callback-запрос
     await callback.answer()
 
+@router.callback_query(F.data == "compare_stock")
+async def handle_compare_stock(callback: CallbackQuery):
+    await callback.answer("Генерирую Excel-таблицу...")
 
+    try:
+        path = create_excel_report()
+        with open(path, "rb") as file:
+            await callback.message.answer_document(document=file, caption="🧾 Сравнительная таблица остатков")
+    except Exception as e:
+        await callback.message.answer(f"⚠️ Ошибка при генерации отчета: {e}")
