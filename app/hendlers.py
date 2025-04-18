@@ -97,7 +97,7 @@ async def handle_compare_stock(callback: CallbackQuery):
 
     try:
         path = generate_excel_report()
-        with open(path, "rb") as file:
-            await callback.message.answer_document(document=file, caption="🧾 Сравнительная таблица остатков")
+        file = FSInputFile(path)
+        await callback.message.answer_document(document=file, caption="🧾 Сравнительная таблица остатков")
     except Exception as e:
         await callback.message.answer(f"⚠️ Ошибка при генерации отчета: {e}")
