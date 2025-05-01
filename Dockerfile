@@ -1,6 +1,6 @@
-FROM python:3.9-slim
+FROM python:3.9-bullseye
 
-# Установка зависимостей
+# Установка системных зависимостей
 RUN apt update && apt install -y \
     wget \
     bzip2 \
@@ -20,19 +20,19 @@ RUN apt update && apt install -y \
     libxinerama1 \
     libxkbcommon0 \
     libatk-bridge2.0-0 \
-    libgtk-3-0 \
     libdrm2 \
     fonts-liberation \
     libgl1 \
     libgbm1 \
     libpango-1.0-0 \
+    ca-certificates \
     && apt clean
 
 # Установка Firefox 124.0.2
 RUN wget https://ftp.mozilla.org/pub/firefox/releases/124.0.2/linux-x86_64/en-US/firefox-124.0.2.tar.bz2 && \
     tar -xjf firefox-124.0.2.tar.bz2 && \
     mv firefox /opt/firefox124 && \
-    ln -sf /opt/firefox124/firefox /usr/bin/firefox
+    ln -s /opt/firefox124/firefox /usr/bin/firefox
 
 # Установка geckodriver 0.36.0
 RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux64.tar.gz && \
@@ -40,12 +40,12 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckod
     mv geckodriver /usr/local/bin/ && \
     chmod +x /usr/local/bin/geckodriver
 
-# Установка Python-зависимостей
+# Копирование зависимостей и установка Python-библиотек
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копирование кода
+# Копирование исходного кода
 COPY . .
 
-# Старт
+# Запуск основного скрипта
 CMD ["python", "main.py"]
