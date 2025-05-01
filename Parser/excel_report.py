@@ -1,6 +1,5 @@
 import os
 import json
-from datetime import datetime
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment
 from openpyxl.utils import get_column_letter
@@ -24,14 +23,12 @@ def generate_excel_report(data_dir="Parser/data", base_filename="output", output
 
         for article, item in json_data.items():
             if article not in stock_data:
-                stock_data[article] = {
-                    "name": f"Название {article}",
-                    "warehouses": {}
-                }
+                stock_data[article] = {}
 
             if isinstance(item, dict):
                 for wh, qty in item.get("details", {}).items():
-                    stock_data[article]["warehouses"].setdefault(wh, {})[date_str] = qty
+                    stock_data[article].setdefault(date_str, 0)
+                    stock_data[article][date_str] += qty
 
     # Создание Excel
     wb = Workbook()
@@ -39,13 +36,13 @@ def generate_excel_report(data_dir="Parser/data", base_filename="output", output
     ws.title = "Остатки за неделю"
 
     # Заголовок
-    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=3 + len(date_labels))
-    title_cell = ws.cell(row=1, column=1, value="Таблица отображения остатков за последние 7 дней")
+    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=1 + len(date_labels))
+    title_cell = ws.cell(row=1, column=1, value="Остатки по артикулу за последние 7 дней")
     title_cell.font = Font(bold=True, size=14)
     title_cell.alignment = Alignment(horizontal="center")
 
     # Шапка
-    headers = ["Артикул товара", "Название товара", "Склады"] + date_labels
+    headers = ["Артикул"] + date_labels
     for col, header in enumerate(headers, start=1):
         cell = ws.cell(row=2, column=col, value=header)
         cell.font = Font(bold=True)
@@ -53,21 +50,11 @@ def generate_excel_report(data_dir="Parser/data", base_filename="output", output
 
     # Данные
     row = 3
-    for article, info in stock_data.items():
-        total_by_date = {date: 0 for date in date_labels}
-
-        # Считаем сумму остатков по всем складам на каждую дату
-        for wh, day_qty in info["warehouses"].items():
-            for date in date_labels:
-                total_by_date[date] += day_qty.get(date, 0)
-
-        # Записываем строку в Excel
+    for article, day_data in stock_data.items():
         ws.cell(row=row, column=1, value=article)
-        ws.cell(row=row, column=2, value=info["name"])
-        ws.cell(row=row, column=3, value="Всего по всем складам")
         for i, date in enumerate(date_labels):
-            ws.cell(row=row, column=4 + i, value=total_by_date[date])
-
+            qty = day_data.get(date, 0)
+            ws.cell(row=row, column=2 + i, value=qty)
         row += 1
 
     # Автоширина
