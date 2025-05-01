@@ -54,29 +54,21 @@ def generate_excel_report(data_dir="Parser/data", base_filename="output", output
     # Данные
     row = 3
     for article, info in stock_data.items():
-        warehouses = info["warehouses"]
-        start_row = row
         total_by_date = {date: 0 for date in date_labels}
 
-        for wh, day_qty in warehouses.items():
-            ws.cell(row=row, column=3, value=wh)
-            for i, date in enumerate(date_labels):
-                qty = day_qty.get(date, 0)
-                total_by_date[date] += qty
-                ws.cell(row=row, column=4 + i, value=qty)
-            row += 1
+        # Считаем сумму остатков по всем складам на каждую дату
+        for wh, day_qty in info["warehouses"].items():
+            for date in date_labels:
+                total_by_date[date] += day_qty.get(date, 0)
 
-        # Строка "Всего по складам"
+        # Записываем строку в Excel
+        ws.cell(row=row, column=1, value=article)
+        ws.cell(row=row, column=2, value=info["name"])
         ws.cell(row=row, column=3, value="Всего по всем складам")
         for i, date in enumerate(date_labels):
             ws.cell(row=row, column=4 + i, value=total_by_date[date])
-        row += 1
 
-        # Объединение ячеек для артикулов и названий
-        ws.merge_cells(start_row=start_row, start_column=1, end_row=row - 1, end_column=1)
-        ws.merge_cells(start_row=start_row, start_column=2, end_row=row - 1, end_column=2)
-        ws.cell(row=start_row, column=1, value=article)
-        ws.cell(row=start_row, column=2, value=info["name"])
+        row += 1
 
     # Автоширина
     for col in ws.columns:
