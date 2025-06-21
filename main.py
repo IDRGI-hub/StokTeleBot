@@ -5,10 +5,11 @@ import json
 
 from aiogram import Bot, Dispatcher
 
-from config import TOKEN, CHAT_IDS, OUTPUT_FILE
+from config import TOKEN, CHAT_IDS
 from app.hendlers import router
 from Parser.Parser import scrape_data
 from Parser.Save_utils import save_stock_history
+from Parser.db_utils import fetch_stock_by_date
 
 bot = Bot(TOKEN)
 dp = Dispatcher()
@@ -22,11 +23,10 @@ async def send_daily_stock():
 
     results = await scrape_data()
 
-    # 💾 Сохраняем результаты в JSON-файл с датой
+    # 💾 Сохраняем результаты
     save_stock_history(results)
 
-    with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    data = fetch_stock_by_date()
 
     response = "📊 **Остатки товаров за сегодня:**\n\n"
 

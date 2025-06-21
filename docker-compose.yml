@@ -7,10 +7,12 @@ services:
     restart: unless-stopped
     volumes:
       - .:/appdir
+      - db_data:/db
     environment:
       - TZ=Europe/Moscow
     depends_on:
       - selenium
+      - db
     
 
   selenium:
@@ -23,3 +25,14 @@ services:
       - ./Parser/extension:/extension  # Монтируем папку с расширением
     environment:
       - TZ=Europe/Moscow
+
+  db:
+    image: alpine
+    container_name: sqlite-db
+    volumes:
+      - db_data:/db
+    command: ["sh", "-c", "tail -f /dev/null"]
+    restart: unless-stopped
+
+volumes:
+  db_data:

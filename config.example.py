@@ -26,3 +26,6 @@ OUTPUT_FILE = "Parser/output.json"
 
 # Логирование
 LOGGING_LEVEL = "INFO"
+
+# SQLite database file path
+DB_FILE = "db/stocks.db"
