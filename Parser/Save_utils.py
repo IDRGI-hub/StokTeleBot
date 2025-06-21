@@ -2,6 +2,8 @@ import os
 import json
 from datetime import datetime, timedelta
 
+from .db_utils import insert_stock_history
+
 def save_stock_history(data, data_dir="Parser/data", base_filename="output", keep_days=7):
     """
     Сохраняет остатки товаров в файл с текущей датой.
@@ -14,9 +16,12 @@ def save_stock_history(data, data_dir="Parser/data", base_filename="output", kee
     filename = f"{base_filename}_{today_str}.json"
     file_path = os.path.join(data_dir, filename)
 
-    # Сохраняем данные
+    # Сохраняем данные в файл
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+
+    # Также сохраняем данные в SQLite
+    insert_stock_history(data, today_str)
 
     # Удаляем старые файлы
     cutoff_date = datetime.now() - timedelta(days=keep_days)

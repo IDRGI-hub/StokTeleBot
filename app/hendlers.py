@@ -2,13 +2,14 @@ from aiogram import F, Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, CallbackQuery, FSInputFile
 
-import json
 import logging
 
 import app.keyboards as kb
 from Parser.Parser import scrape_data
-from config import OUTPUT_FILE, CHAT_IDS
+from config import CHAT_IDS
 from Parser.excel_report import generate_excel_report
+from Parser.Save_utils import save_stock_history
+from Parser.db_utils import fetch_stock_by_date
 
 router = Router()
 
@@ -26,10 +27,8 @@ async def cmd_get_stock(message: Message):
     
     # Запуск парсинга
     results = await scrape_data()
-    
-    # Читаем JSON-файл с результатами
-    with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    save_stock_history(results)
+    data = fetch_stock_by_date()
     
     # Формируем сообщение
     response = "📊 **Остатки товаров:**\n\n"
@@ -54,10 +53,8 @@ async def cmd_get_data(callback: CallbackQuery):
     
     # Запуск парсинга
     results = await scrape_data()
-    
-    # Читаем JSON-файл с результатами
-    with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    save_stock_history(results)
+    data = fetch_stock_by_date()
     
     # Формируем сообщение
     response = "📊 **Остатки товаров:**\n\n"
