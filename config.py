@@ -1,11 +1,4 @@
-TOKEN = "7971888957:AAGFVP88kpOrLZCDi773sJEBpLTBv-V-vQo"
-CHAT_IDS = ["439716080", "889953315", "665364041"]
 
-MAYAK_URL = "https://app.mayak.bz/users/sign_in"
-WILDBERRIES_URL_TEMPLATE = "https://www.wildberries.ru/catalog/{}/detail.aspx"
-
-USERNAME = "89152251909"
-PASSWORD = "D17102002o"
 
 ARTICLES = {
     252712312: "увлж 05",
