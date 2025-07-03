@@ -10,6 +10,8 @@ from Parser.Parser import scrape_data
 from config import OUTPUT_FILE, CHAT_IDS
 from Parser.excel_report import generate_excel_report
 
+MAX_LENGTH = 4000
+
 router = Router()
 
 @router.message(CommandStart())
@@ -46,7 +48,12 @@ async def cmd_get_stock(message: Message):
         else:
             response += f"🔹 *{product}* - {stock}\n\n"
     
-    await message.answer(response, parse_mode="Markdown")
+    # Отправляем частями
+    MAX_LENGTH = 4000
+    for i in range(0, len(response), MAX_LENGTH):
+        chunk = response[i:i + MAX_LENGTH]
+        await message.answer(chunk, parse_mode="Markdown")
+
 
 @router.callback_query(F.data == '/get_data')
 async def cmd_get_data(callback: CallbackQuery):
@@ -73,8 +80,6 @@ async def cmd_get_data(callback: CallbackQuery):
             response += "\n"
         else:
             response += f"🔹 *{product}* - {stock}\n\n"
-    
-    MAX_LENGTH = 4000
     
     for i in range(0, len(response), MAX_LENGTH):
         chunk = response[i:i + MAX_LENGTH]
