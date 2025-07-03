@@ -152,9 +152,12 @@ async def scrape_wildberries(driver):
         driver.get(url)
         await asyncio.sleep(25)
         
+        # Преобразуем product_name в строку для использования в качестве ключа
+        product_key = str(product_name)
+        
         if check_captcha(driver):
             logging.error(f"CAPTCHA detected on {url}. Skipping...")
-            results[product_name] = "CAPTCHA encountered"
+            results[product_key] = "CAPTCHA encountered"
             continue
         
         try:
@@ -163,10 +166,10 @@ async def scrape_wildberries(driver):
             stock_info = extract_stock_info(html_content)
 
             if stock_info:
-                results[product_name] = stock_info
+                results[product_key] = stock_info
                 logging.info(f"Scraped {product_name}: {stock_info}")
             else:
-                results[product_name] = "Stock info not found"
+                results[product_key] = "Stock info not found"
                 logging.warning(f"Stock info not found for {product_name}")
             
             # Сохраняем HTML-файл в папку html_files
@@ -176,7 +179,7 @@ async def scrape_wildberries(driver):
             logging.info(f"Saved page HTML to {html_file}")
         except Exception as e:
             logging.error(f"Failed to scrape {product_name}: {e}")
-            results[product_name] = "Error scraping data"
+            results[product_key] = "Error scraping data"
     
     return results
 
