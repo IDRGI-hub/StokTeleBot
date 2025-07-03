@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime, timedelta
 
-def save_stock_history(data, data_dir="Parser/data", base_filename="output", keep_days=7):
+def save_stock_history(data, data_dir="Parser/data", base_filename="output", keep_days=4):
     """
     Сохраняет остатки товаров в файл с текущей датой.
     Удаляет файлы старше keep_days дней.

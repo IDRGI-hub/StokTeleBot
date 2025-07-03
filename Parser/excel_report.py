@@ -2,7 +2,9 @@ import os
 import json
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment
-from openpyxl.utils import get_column_letter
+
+# Импортируем ARTICLES из config.py
+from config import ARTICLES
 
 def generate_excel_report(data_dir="Parser/data", base_filename="output", output_file="weekly_report.xlsx"):
     files = sorted([
@@ -10,10 +12,10 @@ def generate_excel_report(data_dir="Parser/data", base_filename="output", output
         if f.startswith(base_filename) and f.endswith(".json")
     ])
 
-    # Собираем даты
     date_labels = []
     stock_data = {}
 
+    # Собираем данные по датам
     for file in files:
         date_str = file[len(base_filename) + 1:-5]
         date_labels.append(date_str)
@@ -26,42 +28,56 @@ def generate_excel_report(data_dir="Parser/data", base_filename="output", output
                 stock_data[article] = {}
 
             if isinstance(item, dict):
-                for wh, qty in item.get("details", {}).items():
-                    stock_data[article].setdefault(date_str, 0)
-                    stock_data[article][date_str] += qty
+                total = sum(item.get("details", {}).values())
+                stock_data[article][date_str] = total
+            else:
+                stock_data[article][date_str] = item
 
-    # Создание Excel
+    # Создаем Excel
     wb = Workbook()
     ws = wb.active
-    ws.title = "Остатки за неделю"
+    ws.title = "Stock Report"
+
+    header_font = Font(bold=True)
+    category_font = Font(bold=True, size=12)
+    center_alignment = Alignment(horizontal="center", vertical="center")
 
     # Заголовок
-    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=1 + len(date_labels))
-    title_cell = ws.cell(row=1, column=1, value="Остатки по артикулу за последние 7 дней")
-    title_cell.font = Font(bold=True, size=14)
-    title_cell.alignment = Alignment(horizontal="center")
+    headers = ["Артикул", "Название", "Категория"] + date_labels
+    ws.append(headers)
+    for col_num in range(1, len(headers) + 1):
+        ws.cell(row=1, column=col_num).font = header_font
+        ws.cell(row=1, column=col_num).alignment = center_alignment
 
-    # Шапка
-    headers = ["Артикул"] + date_labels
-    for col, header in enumerate(headers, start=1):
-        cell = ws.cell(row=2, column=col, value=header)
-        cell.font = Font(bold=True)
-        cell.alignment = Alignment(horizontal="center")
+    row_idx = 2
 
-    # Данные
-    row = 3
-    for article, day_data in stock_data.items():
-        ws.cell(row=row, column=1, value=article)
-        for i, date in enumerate(date_labels):
-            qty = day_data.get(date, 0)
-            ws.cell(row=row, column=2 + i, value=qty)
-        row += 1
+    # Группируем артикулы по категориям
+    categories = {}
+    for article, info in ARTICLES.items():
+        cat = info.get("category", "Прочее")
+        categories.setdefault(cat, []).append(article)
 
-    # Автоширина
-    for col in ws.columns:
-        max_length = max(len(str(cell.value or "")) for cell in col)
-        col_letter = get_column_letter(col[0].column)
-        ws.column_dimensions[col_letter].width = max(12, max_length + 2)
+    for cat_name in sorted(categories.keys()):
+        # Вставляем заголовок категории
+        ws.append([cat_name])
+        ws.cell(row=row_idx, column=1).font = category_font
+        row_idx += 1
+
+        for article in categories[cat_name]:
+            info = ARTICLES.get(article, {})
+            name = info.get("name", "")
+            row = [article, name, cat_name]
+
+            for date in date_labels:
+                qty = stock_data.get(str(article), {}).get(date, 0)
+                row.append(qty)
+
+            ws.append(row)
+            row_idx += 1
+
+        # Пустая строка после категории
+        ws.append([])
+        row_idx += 1
 
     # Сохраняем
     output_path = os.path.join(data_dir, output_file)
