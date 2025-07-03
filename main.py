@@ -18,7 +18,7 @@ async def send_daily_stock():
 
     for chat_id in CHAT_IDS:
         await bot.send_message(chat_id=chat_id, text="⏳ Запуск автоматического сбора данных...", parse_mode="Markdown")
-        logging.info(f"✅ Данные отправлены в чат {chat_id}")
+        logging.info(f"✅ Сообщение о начале сбора отправлено в чат {chat_id}")
 
     results = await scrape_data()
 
@@ -42,8 +42,11 @@ async def send_daily_stock():
         else:
             response += f"🔹 *{product}* - {stock}\n\n"
 
+    MAX_LENGTH = 4000  # запас от лимита Telegram
     for chat_id in CHAT_IDS:
-        await bot.send_message(chat_id=chat_id, text=response, parse_mode="Markdown")
+        for i in range(0, len(response), MAX_LENGTH):
+            chunk = response[i:i + MAX_LENGTH]
+            await bot.send_message(chat_id=chat_id, text=chunk, parse_mode="Markdown")
         logging.info(f"✅ Данные отправлены в чат {chat_id}")
 
 async def main():
