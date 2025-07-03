@@ -74,7 +74,11 @@ async def cmd_get_data(callback: CallbackQuery):
         else:
             response += f"🔹 *{product}* - {stock}\n\n"
     
-    await callback.message.answer(response, parse_mode="Markdown")
+    MAX_LENGTH = 4000
+    
+    for i in range(0, len(response), MAX_LENGTH):
+        chunk = response[i:i + MAX_LENGTH]
+        await callback.message.answer(chunk, parse_mode="Markdown")
 
     # Обработчик callback-запроса для подписки
 @router.callback_query(F.data == '/get_messages')
