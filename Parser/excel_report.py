@@ -7,6 +7,7 @@ from openpyxl.styles import Font, Alignment
 from config import ARTICLES
 
 def generate_excel_report(data_dir="Parser/data", base_filename="output", output_file="weekly_report.xlsx"):
+    # Список файлов с данными
     files = sorted([
         f for f in os.listdir(data_dir)
         if f.startswith(base_filename) and f.endswith(".json")
@@ -23,15 +24,15 @@ def generate_excel_report(data_dir="Parser/data", base_filename="output", output
         with open(os.path.join(data_dir, file), "r", encoding="utf-8") as f:
             json_data = json.load(f)
 
-        for article, item in json_data.items():
-            if article not in stock_data:
-                stock_data[article] = {}
+        for article_id, item in json_data.items():
+            if article_id not in stock_data:
+                stock_data[article_id] = {}
 
             if isinstance(item, dict):
-                total = sum(item.get("details", {}).values())
-                stock_data[article][date_str] = total
+                total = item.get("total_stock", 0)
+                stock_data[article_id][date_str] = total
             else:
-                stock_data[article][date_str] = item
+                stock_data[article_id][date_str] = 0  # Если нет данных — 0
 
     # Создаем Excel
     wb = Workbook()
@@ -55,7 +56,7 @@ def generate_excel_report(data_dir="Parser/data", base_filename="output", output
     categories = {}
     for article, info in ARTICLES.items():
         cat = info.get("category", "Прочее")
-        categories.setdefault(cat, []).append(article)
+        categories.setdefault(cat, []).append(str(article))  # ключи в JSON — строки
 
     for cat_name in sorted(categories.keys()):
         # Вставляем заголовок категории
@@ -63,13 +64,13 @@ def generate_excel_report(data_dir="Parser/data", base_filename="output", output
         ws.cell(row=row_idx, column=1).font = category_font
         row_idx += 1
 
-        for article in categories[cat_name]:
-            info = ARTICLES.get(article, {})
+        for article_id in categories[cat_name]:
+            info = ARTICLES.get(int(article_id), {})
             name = info.get("name", "")
-            row = [article, name, cat_name]
+            row = [article_id, name, cat_name]
 
             for date in date_labels:
-                qty = stock_data.get(str(article), {}).get(date, 0)
+                qty = stock_data.get(article_id, {}).get(date, 0)
                 row.append(qty)
 
             ws.append(row)
