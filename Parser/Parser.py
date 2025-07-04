@@ -143,7 +143,6 @@ def extract_stock_info(html):
 async def scrape_wildberries(driver):
     results = {}
     
-    # Создаем папку для HTML-файлов, если её нет
     if not os.path.exists("html_files"):
         os.makedirs("html_files")
     
@@ -152,12 +151,16 @@ async def scrape_wildberries(driver):
         driver.get(url)
         await asyncio.sleep(25)
         
-        # Преобразуем product_name в строку для использования в качестве ключа
-        product_key = str(product_name)
-        
         if check_captcha(driver):
             logging.error(f"CAPTCHA detected on {url}. Skipping...")
-            results[product_key] = "CAPTCHA encountered"
+            results[str(article_id)] = {
+                "name": product_name["name"],
+                "category": product_name["category"],
+                "total_stock": 0,
+                "warehouses": 0,
+                "details": {},
+                "note": "CAPTCHA encountered"
+            }
             continue
         
         try:
@@ -166,20 +169,37 @@ async def scrape_wildberries(driver):
             stock_info = extract_stock_info(html_content)
 
             if stock_info:
-                results[product_key] = stock_info
+                results[str(article_id)] = {
+                    "name": product_name["name"],
+                    "category": product_name["category"],
+                    **stock_info
+                }
                 logging.info(f"Scraped {product_name}: {stock_info}")
             else:
-                results[product_key] = "Stock info not found"
+                results[str(article_id)] = {
+                    "name": product_name["name"],
+                    "category": product_name["category"],
+                    "total_stock": 0,
+                    "warehouses": 0,
+                    "details": {},
+                    "note": "Stock info not found"
+                }
                 logging.warning(f"Stock info not found for {product_name}")
             
-            # Сохраняем HTML-файл в папку html_files
             html_file = os.path.join("html_files", f"wildberries_page_{article_id}.html")
             with open(html_file, "w", encoding="utf-8") as f:
                 f.write(html_content)
             logging.info(f"Saved page HTML to {html_file}")
         except Exception as e:
             logging.error(f"Failed to scrape {product_name}: {e}")
-            results[product_key] = "Error scraping data"
+            results[str(article_id)] = {
+                "name": product_name["name"],
+                "category": product_name["category"],
+                "total_stock": 0,
+                "warehouses": 0,
+                "details": {},
+                "note": f"Error scraping data: {e}"
+            }
     
     return results
 
