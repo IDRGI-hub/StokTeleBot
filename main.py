@@ -2,6 +2,7 @@ import asyncio
 import logging
 import aiocron
 import json
+import ast
 
 from aiogram import Bot, Dispatcher
 
@@ -28,21 +29,26 @@ async def send_daily_stock():
     with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    response = "📊 **Остатки товаров за сегодня:**\n\n"
+    response = "📊 *Остатки товаров за сегодня:*\n\n"
 
-    for product, stock in data.items():
+    for product_key, stock in data.items():
+        try:
+            product_info = ast.literal_eval(product_key)
+            name = product_info.get("name", "Без названия")
+        except Exception:
+            name = str(product_key)
+
         if isinstance(stock, dict):
-            response += f"🔹 *{product}*\n"
-            response += f"   🔸 Всего: {stock['total_stock']} шт.\n"
+            response += f"🔹 *{name}*\n"
             response += f"   🔸 Кол-во складов: {stock['warehouses']}\n"
-            if stock["details"]:
+            if stock.get("details"):
                 for warehouse, qty in stock["details"].items():
                     response += f"   📍 {warehouse}: {qty} шт.\n"
             response += "\n"
         else:
-            response += f"🔹 *{product}* - {stock}\n\n"
+            response += f"🔹 *{name}* - {stock}\n\n"
 
-    MAX_LENGTH = 4000  # запас от лимита Telegram
+    MAX_LENGTH = 4000
     for chat_id in CHAT_IDS:
         for i in range(0, len(response), MAX_LENGTH):
             chunk = response[i:i + MAX_LENGTH]
